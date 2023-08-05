@@ -4,6 +4,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       main안녕하세요dfsdfsdfaasdf
+      또 다른 테스트
     </main>
   )
 }
