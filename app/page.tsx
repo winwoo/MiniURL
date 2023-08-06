@@ -3,14 +3,27 @@ import classNames from "classnames";
 import css from "./main.module.scss";
 import { ChangeEvent, useState } from "react";
 import Link from "next/link";
+import axios from 'axios';
 
 export default function Home() {
   const [inputValue, setInputValue] = useState<string>('');
-
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   }
 
+  const handlePost = async () => { //서버에 요청 후 응딥까지 시간이 걸리므로 비동기 처리
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }
+    const {data} = await axios.post('api/changeUrl', { //응답을 처리하는 부분
+      url: inputValue,
+      config,
+    })
+    console.log(data)
+    // return data;
+  }
   return (
     <div className="wrapper">
       <main className={classNames(css.main,"flex justify-center text-center p-24")}>
@@ -38,6 +51,7 @@ export default function Home() {
               id="btn"
               className={classNames(css.shortBtn, 'ml-5')}
               type="button"
+              onClick={handlePost}
             >
               단축
             </button>
