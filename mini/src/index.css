@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* :root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+} */
+
+body {
+  /* color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+  rgb(var(--background-start-rgb)); */
+  content: '';
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 0;
+	/* background-attachment: scroll;
+	background-position: 0% 0%, center;
+	background-repeat: repeat, repeat;
+	background-size: auto, cover; */
+	background-color: #1A1721;
+	color: #FFFFFF;
+	font-size: 16px;
+}
+
+html, body {
+	height: 100%;
+}
+
+body,
+h1,
+h2,
+p,
+ul,
+button {
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+  padding: 0;
+  font: inherit;
+}
+
+a {
+  color: inherit;
+	text-decoration: none;
+}
+
+button:enabled {
+  cursor: pointer;
+}
+
+input, button {
+	font: inherit;
+	background: none;
+	border-radius: 1rem;
+}
+
+
+#commonInput {
+	height: 3.625rem;
+	padding: 0 1.26875rem;
+	line-height: calc(3.625rem - 2px);
+	color: #FFFFFF;
+	border: solid 1px rgba(255, 255, 255, 0.09);
+}
+
+button[id^="btn"] {
+	height: 3.625rem;
+	line-height: 3.625rem;
+	padding: 0 1.8125rem;
+	font-size: 1.125em;
+	font-weight: 300;
+	color: #FFFFFF;
+}
