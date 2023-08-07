@@ -21,9 +21,9 @@ function App() {
       }
     }
     const {data} = await axios.post('/changeUrl', { //응답을 처리하는 부분
-      // url: inputValue,
       config,
-    })
+      url: inputValue
+    });
     console.log(data)
   }, [inputValue]);
 
@@ -34,10 +34,17 @@ function App() {
     console.log('url 복사되었습니다.')
   }, []);
 
+  const handleOnKeyPress = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handlePost();
+    }
+  }, [handlePost])
+
   /**
    * 해야할 것
    * 1. url입력 후 단축 버튼 누르면
    * 2. 하단 input에 잘라낸 url이 나타난다.
+   * 3. input 엔터를 했을때에도 콘솔에 url이 나타난다.
    */
   return (
     <div className={css.wrapper}>
@@ -60,9 +67,10 @@ function App() {
                 value={inputValue}
                 onChange={handleInputChange}
                 placeholder="입력하세요"
+                onKeyPress={handleOnKeyPress}
                 />
             </div>
-            <Button name={'단축'} onClick={handlePost}/>
+            <Button onClick={handlePost}>단축</Button>
           </form>
 
           <form className={classNames('flex justify-center')}>
@@ -75,7 +83,7 @@ function App() {
                 placeholder=""
                 />
             </div>
-            <Button name={'복사'} onClick={copyUrl}/>
+            <Button onClick={copyUrl}>복사</Button>
           </form>
         </article>
       </main>

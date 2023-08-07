@@ -70,7 +70,7 @@ const changeUrl = async (req, res) => {
     const hash = uuidv4().split('-')[0]
     const { url } = req.body;
 
-    if (!url.startsWith("http")) {
+    if (!url || !url.startsWith("http")) {
         return res.json({ error: '잘못된 주소 형식 입니다. http 또는 https 로 시작하는 주소를 입력해 주세요.' });
     }
 

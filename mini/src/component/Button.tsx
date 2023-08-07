@@ -1,16 +1,17 @@
 import classNames from 'classnames';
 import css from "../main.module.scss";
+import { ReactNode } from 'react';
 
 /**
  * @param name 버튼 이름
  * @param onClick 클릭시 버튼의 기능
  */
 interface ButtonProps {
-  name: string,
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick: () => void;
+  children: ReactNode;
 }
 
-export default function Button({name, onClick} : ButtonProps) {
+export default function Button({onClick, children} : ButtonProps) {
   return (
     <button
       id="btn"
@@ -18,7 +19,7 @@ export default function Button({name, onClick} : ButtonProps) {
       type="button"
       onClick={onClick}
     >
-      {name}
+      {children}
     </button>
   );
 }
