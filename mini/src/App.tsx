@@ -1,6 +1,7 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import classNames from 'classnames';
 import css from "./main.module.scss";
+import Button from './component/Button';
 import axios from 'axios';
 
 function App() {
@@ -9,18 +10,42 @@ function App() {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   }
-  const handlePost = async () => { //서버에 요청 후 응딥까지 시간이 걸리므로 비동기 처리
+
+  /**
+   * 비동기 작업
+   */
+  const handlePost = useCallback(async() => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
       }
     }
     const {data} = await axios.post('/changeUrl', { //응답을 처리하는 부분
-      url: inputValue,
       config,
-    })
+      url: inputValue
+    });
     console.log(data)
-  }
+  }, [inputValue]);
+
+  /**
+   * text 복사 함수
+   */
+  const copyUrl = useCallback(() => {
+    console.log('url 복사되었습니다.')
+  }, []);
+
+  const handleOnKeyPress = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handlePost();
+    }
+  }, [handlePost])
+
+  /**
+   * 해야할 것
+   * 1. url입력 후 단축 버튼 누르면
+   * 2. 하단 input에 잘라낸 url이 나타난다.
+   * 3. input 엔터를 했을때에도 콘솔에 url이 나타난다.
+   */
   return (
     <div className={css.wrapper}>
       <main className={classNames(css.main,"flex justify-center text-center p-24")}>
@@ -42,16 +67,10 @@ function App() {
                 value={inputValue}
                 onChange={handleInputChange}
                 placeholder="입력하세요"
+                onKeyPress={handleOnKeyPress}
                 />
             </div>
-            <button
-              id="btn"
-              className={classNames(css.shortBtn, 'ml-5')}
-              type="button"
-              onClick={handlePost}
-            >
-              단축
-            </button>
+            <Button onClick={handlePost}>단축</Button>
           </form>
 
           <form className={classNames('flex justify-center')}>
@@ -64,9 +83,7 @@ function App() {
                 placeholder=""
                 />
             </div>
-            <button id="btn" className={classNames(css.shortBtn, 'ml-5')}type="button">
-              복사
-            </button>
+            <Button onClick={copyUrl}>복사</Button>
           </form>
         </article>
       </main>
