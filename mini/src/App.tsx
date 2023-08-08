@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useState, useRef } from 'react';
 import classNames from 'classnames';
 import css from "./main.module.scss";
 import Button from './component/Button';
@@ -6,7 +6,8 @@ import axios from 'axios';
 
 function App() {
   const [inputValue, setInputValue] = useState<string>('');
-
+  const inputE1 = useRef(null);
+  const inputE2 = useRef(null);
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   }
@@ -34,11 +35,15 @@ function App() {
     console.log('url 복사되었습니다.')
   }, []);
 
-  const handleOnKeyPress = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+  /**
+   * url 입력 input창
+   */
+  const handleOnKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      handlePost();
+      e.preventDefault();
+      console.log('value', inputValue)
     }
-  }, [handlePost])
+  }, [inputValue])
 
   /**
    * 해야할 것
@@ -64,10 +69,11 @@ function App() {
                 className={css.urlInput}
                 type="text"
                 name=""
+                ref={inputE1}
                 value={inputValue}
                 onChange={handleInputChange}
                 placeholder="입력하세요"
-                onKeyPress={handleOnKeyPress}
+                onKeyDown={handleOnKeyDown}
                 />
             </div>
             <Button onClick={handlePost}>단축</Button>
@@ -80,7 +86,7 @@ function App() {
                 className={css.urlInput}
                 type="text"
                 name=""
-                placeholder=""
+                ref={inputE2}
                 />
             </div>
             <Button onClick={copyUrl}>복사</Button>
