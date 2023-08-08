@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useState, useRef } from 'react';
+import { ChangeEvent, useCallback, useState, useRef,useEffect } from 'react';
 import classNames from 'classnames';
 import css from "./main.module.scss";
 import Button from './component/Button';
@@ -6,16 +6,28 @@ import axios from 'axios';
 
 function App() {
   const [inputValue, setInputValue] = useState<string>('');
-  const inputE1 = useRef(null);
-  const inputE2 = useRef(null);
+  const [updateValue, setUpdateValue] = useState<string>('');
+  const autoFocusingRef = useRef<HTMLInputElement>(null);
+  const textCopyRef = useRef<HTMLInputElement>(null);
+
+  /**
+   * input의 입력값
+   */
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   }
 
   /**
-   * 비동기 작업
+   * 페이지 초기 랜더링시 input focus
    */
-  const handlePost = useCallback(async() => {
+  useEffect(() => {
+    autoFocusingRef.current?.focus();
+  }, []);
+
+  /**
+   * 데이터 변환 작업
+   */
+  const handleChangeURL = useCallback(async() => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -25,15 +37,27 @@ function App() {
       config,
       url: inputValue
     });
+    setUpdateValue(data.url);
     console.log(data)
   }, [inputValue]);
 
   /**
    * text 복사 함수
    */
-  const copyUrl = useCallback(() => {
-    console.log('url 복사되었습니다.')
-  }, []);
+
+  const handleCopyUrlBtn = useCallback(() => {
+    const copyText = textCopyRef.current?.value;
+    console.log(typeof(copyText))
+    if(copyText) {
+      navigator.clipboard.writeText(copyText)
+      .then(() => {
+        console.log('텍스트가 클립보드에 복사되었습니다.');
+      })
+      .catch(err => {
+        console.log('복사에 실패하였습니다.', err);
+      });
+    }
+  }, [textCopyRef]);
 
   /**
    * url 입력 input창
@@ -45,12 +69,7 @@ function App() {
     }
   }, [inputValue])
 
-  /**
-   * 해야할 것
-   * 1. url입력 후 단축 버튼 누르면
-   * 2. 하단 input에 잘라낸 url이 나타난다.
-   * 3. input 엔터를 했을때에도 콘솔에 url이 나타난다.
-   */
+
   return (
     <div className={css.wrapper}>
       <main className={classNames(css.main,"flex justify-center text-center p-24")}>
@@ -69,14 +88,14 @@ function App() {
                 className={css.urlInput}
                 type="text"
                 name=""
-                ref={inputE1}
+                ref={autoFocusingRef}
                 value={inputValue}
                 onChange={handleInputChange}
                 placeholder="입력하세요"
                 onKeyDown={handleOnKeyDown}
                 />
             </div>
-            <Button onClick={handlePost}>단축</Button>
+            <Button onClick={handleChangeURL}>단축</Button>
           </form>
 
           <form className={classNames('flex justify-center')}>
@@ -86,10 +105,12 @@ function App() {
                 className={css.urlInput}
                 type="text"
                 name=""
-                ref={inputE2}
+                value={updateValue}
+                ref={textCopyRef}
+                readOnly
                 />
             </div>
-            <Button onClick={copyUrl}>복사</Button>
+            <Button onClick={handleCopyUrlBtn}>복사</Button>
           </form>
         </article>
       </main>
