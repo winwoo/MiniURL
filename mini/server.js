@@ -3,7 +3,7 @@ const redis = require('redis');
 const express = require('express');
 const path = require('path');
 const app = express();
-const REACT_APP_PATH = process.env. "./deploy";
+const REACT_APP_PATH = "./deploy";
 
 
 //#region node setting
