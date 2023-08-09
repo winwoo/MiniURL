@@ -3,11 +3,12 @@ const redis = require('redis');
 const express = require('express');
 const path = require('path');
 const app = express();
+const REACT_APP_PATH = process.env. "./deploy";
 
 
 //#region node setting
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, './build')));
+app.use(express.static(path.join(__dirname, REACT_APP_PATH)));
 
 const urlMap = {};
 app.listen(4000, () => {
@@ -104,7 +105,7 @@ const apiRegister = () => {
     // The "catchall" handler: for any request that doesn't
     // match one above, send back React's index.html file.
     app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, './deploy/index.html'));
+        res.sendFile(path.join(__dirname, `${REACT_APP_PATH}/index.html`));
     });
 }
 
