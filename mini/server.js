@@ -10,7 +10,7 @@ const ENV_TYPE = {
     PROD: "prod"
 }
 
-const REACT_APP_PATH = ENV === ENV_TYPE.DEV ? "./build" : "./deploy";
+const REACT_APP_PATH = ENV === ENV_TYPE.DEV ? "./deploy" : "./deploy";
 
 //#region node setting
 // Serve static files from the React app
