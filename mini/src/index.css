@@ -2,28 +2,7 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-} */
-
 body {
-  /* color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-  rgb(var(--background-start-rgb)); */
   content: '';
 	display: block;
 	position: fixed;
@@ -74,19 +53,21 @@ input, button {
 	border-radius: 1rem;
 }
 
-#commonInput {
-	height: 3.625rem;
-	padding: 0 1.26875rem;
-	line-height: calc(3.625rem - 2px);
-	color: #FFFFFF;
-	border: solid 1px rgba(255, 255, 255, 0.09);
+.a11y {
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
 }
 
 button[id^="btn"] {
 	height: 3.625rem;
 	line-height: 3.625rem;
 	padding: 0 1.8125rem;
-	font-size: 1.125em;
 	font-weight: 300;
 	color: #FFFFFF;
 }

@@ -15,7 +15,7 @@ export default function Button({onClick, children} : ButtonProps) {
   return (
     <button
       id="btn"
-      className={classNames(css.shortBtn, "ml-5")}
+      className={classNames(css.shortBtn, "sm:text-[1.1rem] lg:text-[1.2rem] text-[1rem] ml-5")}
       type="button"
       onClick={onClick}
     >
