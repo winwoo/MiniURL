@@ -42,23 +42,49 @@ function App() {
   }, [inputValue]);
 
   /**
-   * text 복사 함수
+   * @return text 복사 함수
    */
-
   const handleCopyUrlBtn = useCallback(() => {
     const copyText = textCopyRef.current?.value;
-    console.log(typeof(copyText))
     if(copyText) {
-      navigator.clipboard.writeText(copyText)
-      .then(() => {
-        setIsShow(!isShow);
-        // alert('텍스트가 클립보드에 복사되었습니다.');
-      })
-      .catch(err => {
-        alert(`복사에 실패하였습니다. ${err}`);
-      });
+      console.log(copyText)
+      if(navigator.clipboard) {
+        navigator.clipboard.writeText(copyText)
+          .then(() => {
+            setIsShow(!isShow);
+          })
+          .catch(err => {
+            alert(`복사에 실패하였습니다. ${err}`);
+          });
+      }
+      else {
+        copyTextCpliboard({txt: copyText});
+        console.log('텍스트가 클립보드에 복사되었습니다.');
+      }
     }
   }, [textCopyRef, isShow]);
+
+/**
+   * @return 텍스트 클립보드 복사
+   */
+  interface ClipboardProps {
+    txt: string;
+  }
+  // {txt} : ClipboardProps
+  const copyTextCpliboard = ({txt} : ClipboardProps) => {
+    // 1. 임시 textarea 요소를 생성하고 body에 부착
+    const textarea = document.createElement('textarea');
+    document.body.appendChild(textarea);
+    // 2. props로 받은 text값을 textarea의 value로 대입하고 textarea 영역 내 모든 텍스트를 선택(드래그효과)
+    textarea.value = txt;
+    console.log(textarea.value)
+    textarea.select();
+    // 3. execCommand 함수를 이용해 클립보드에 복사
+    document.execCommand('copy');
+    // 4. 임시 textarea 요소 제거
+    document.body.removeChild(textarea);
+    console.log('textarea',textarea)
+  }
 
   /**
    * url 입력 input창
