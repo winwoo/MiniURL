@@ -7,11 +7,11 @@ import { ReactNode } from 'react';
  * @param onClick 클릭시 버튼의 기능
  */
 interface ButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
   children: ReactNode;
 }
 
-export default function Button({onClick, children} : ButtonProps) {
+export default function CommonButton({onClick, children} : ButtonProps) {
   return (
     <button
       id="btn"

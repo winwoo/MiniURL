@@ -1,8 +1,9 @@
 import { ChangeEvent, useCallback, useState, useRef,useEffect } from 'react';
 import classNames from 'classnames';
 import css from "./main.module.scss";
-import Button from './component/Button';
+import CommonButton from './component/CommonButton';
 import axios from 'axios';
+import {CopyToClipboard} from "react-copy-to-clipboard";
 
 function App() {
   const [inputValue, setInputValue] = useState<string>("");
@@ -26,6 +27,7 @@ function App() {
 
   /**
    * 데이터 변환 작업
+   * @return url 주소값
    */
   const handleChangeURL = useCallback(async () => {
     const config = {
@@ -43,64 +45,11 @@ function App() {
   }, [inputValue]);
 
   /**
-   * @return text 복사 함수
+   * 복사버튼 클릭시 copy
    */
-  const handleCopyUrlBtn = useCallback(()=> {
-    const copyText = textCopyRef.current?.value;
-
-    if(copyText) {
-      console.log("copyText", copyText, typeof copyText);
-      // if(navigator.clipboard) { //신버전 작동
-      //   console.log(navigator.clipboard)
-      //   setIsShow(!isShow);
-      // }
-      //구버전 작동
-      copyTextClipBoard({ txt: copyText });
-      setIsShow(!isShow);
-      console.log("텍스트가 클립보드에 복사되었습니다.");
-
-    }
-
-  }, [textCopyRef, isShow]);
-
-  // const handleCopyUrlBtn = useCallback(() => {
-  //   const copyText = textCopyRef.current?.value;
-  //   if (copyText) {
-  //     const clipCopyText = navigator.clipboard.writeText(copyText);
-  //     if (navigator.clipboard) {
-  //       clipCopyText.then(() => {
-  //         setIsShow(!isShow);
-  //       });
-  //       clipCopyText.catch((err) => {
-  //         alert(`복사에 실패하였습니다. ${err}`);
-  //       });
-  //     } else {
-  //       copyTextClipBoard({ txt: copyText });
-  //       console.log("텍스트가 클립보드에 복사되었습니다.");
-  //     }
-  //   }
-  // }, [textCopyRef, isShow]);
-
-  /**
-   * @return 텍스트 클립보드 복사
-   */
-  interface ClipboardProps {
-    txt: string;
-  }
-  const copyTextClipBoard = ({ txt }: ClipboardProps) => {
-    // 1. 임시 textarea 요소를 생성하고 body에 부착
-    const textarea = document.createElement("textarea");
-    document.body.appendChild(textarea);
-    // 2. props로 받은 text값을 textarea의 value로 대입하고 textarea 영역 내 모든 텍스트를 선택(드래그효과)
-    textarea.value = txt;
-    console.log(textarea.value);
-    textarea.select();
-    // 3. execCommand 함수를 이용해 클립보드에 복사
-    document.execCommand("copy");
-    // 4. 임시 textarea 요소 제거
-    document.body.removeChild(textarea);
-    console.log("textarea", textarea);
-  };
+  const handleCopyUrlBtn = useCallback(() => {
+    setIsShow(!isShow);
+  }, [isShow]);
 
   /**
    * url 입력 input창
@@ -147,7 +96,7 @@ function App() {
                   onKeyDown={handleOnKeyDown}
                 />
               </fieldset>
-              <Button onClick={handleChangeURL}>단축</Button>
+              <CommonButton onClick={handleChangeURL}>단축</CommonButton>
             </form>
 
             <form className={classNames("flex justify-center")}>
@@ -163,11 +112,13 @@ function App() {
                   readOnly
                 />
               </fieldset>
-              <Button onClick={handleCopyUrlBtn}>복사</Button>
+              <CopyToClipboard text={updateValue} onCopy={handleCopyUrlBtn}>
+                <CommonButton>복사</CommonButton>
+              </CopyToClipboard>
             </form>
             {isShow && (
               <p className={classNames(css.copyText, "text-[1rem] mt-3")}>
-                링크가 복사되었습니다.
+                링크가 복사되었습니다.😘
               </p>
             )}
           </div>
