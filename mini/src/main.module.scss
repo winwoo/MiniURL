@@ -11,8 +11,19 @@
 	width: 100vw;
 	height: 100vh;
 }
-.main {height: 100vh;}
-.inner {max-width: 950px}
+
+.main {
+  position: relative;
+  height: 100vh;
+}
+
+.inner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  max-width: 950px;
+}
 /* 버튼색상 */
 .shortBtn {
   background-color: #b59753;
@@ -26,13 +37,22 @@
 }
 
 .copyText {
+  height: 24px;
   color: white;
   text-align: center;
-  animation: fadeIn .3s forwards;
+  animation: fadeIn .3s forwards, fadeOut 3.3s forwards;
+}
+
+.empty {
+  height: 24px;
 }
 @keyframes fadeIn {
   from {opacity: 0;}
   to {opacity: 1;}
+}
+@keyframes fadeOut {
+  from {opacity: 1;}
+  to {opacity: 0;}
 }
 .urlInput {
   height: 3.625rem;
