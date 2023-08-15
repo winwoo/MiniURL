@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import css from "../main.module.scss";
-import { ReactNode} from 'react';
+import React, { ReactNode } from 'react';
 
 
 /**
@@ -15,7 +15,8 @@ export default function CopyText({children} : copyTxtProps) {
     <>
       {
         children ?
-        <p className={classNames(css.copyText, "text-[1rem] mt-3")}>{children}</p> :
+        <p className={classNames(css.copyText, "text-[1rem] mt-3")}>{children}</p>
+        :
         <p className={classNames(css.empty, "text-[1rem] mt-3")}></p>
       }
     </>

@@ -29,6 +29,18 @@ function App() {
   }, []);
 
   /**
+   * copyTextMsg값이 변경되면 setTimeout 실행
+   */
+  useEffect(() => {
+    if(!copyTextMsg) {//처음 한번 출력됨에 따라 예외처리로 불필요한 값 처리
+      return;
+    }
+
+    const timer = setTimeout(() => {setCopyTextMsg('');}, 3000);
+    return () => clearTimeout(timer);
+  }, [copyTextMsg])
+
+  /**
    * 데이터 변환 작업
    * @return url 주소값
    */
